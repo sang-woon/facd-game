@@ -40,7 +40,7 @@ export default async function RecentComplaints({ userId }: RecentComplaintsProps
   return (
     <div className="flow-root">
       <ul className="-my-5 divide-y divide-gray-200">
-        {complaints.map((complaint) => (
+        {complaints.map((complaint: any) => (
           <li key={complaint.id} className="py-4">
             <div className="flex items-center space-x-4">
               <div className="flex-1 min-w-0">

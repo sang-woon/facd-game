@@ -66,7 +66,7 @@ export default async function ComplaintList({ userId, status, search }: Complain
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-md">
       <ul className="divide-y divide-gray-200">
-        {complaints.map((complaint) => (
+        {complaints.map((complaint: any) => (
           <li key={complaint.id}>
             <Link href={`/complaints/${complaint.id}`} className="block hover:bg-gray-50">
               <div className="px-4 py-4 sm:px-6">

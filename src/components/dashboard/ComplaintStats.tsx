@@ -17,9 +17,9 @@ export default async function ComplaintStats({ userId }: ComplaintStatsProps) {
 
   const stats = {
     total: complaints?.length || 0,
-    received: complaints?.filter(c => c.status === 'RECEIVED').length || 0,
-    inProgress: complaints?.filter(c => c.status === 'IN_PROGRESS').length || 0,
-    completed: complaints?.filter(c => c.status === 'COMPLETED').length || 0,
+    received: complaints?.filter((c: any) => c.status === 'RECEIVED').length || 0,
+    inProgress: complaints?.filter((c: any) => c.status === 'IN_PROGRESS').length || 0,
+    completed: complaints?.filter((c: any) => c.status === 'COMPLETED').length || 0,
   }
 
   const statItems = [

@@ -3,6 +3,11 @@ import { cookies } from 'next/headers'
 import type { Database } from '@/types/database'
 
 export async function createClient() {
+  // 환경변수가 없으면 null 반환 (데모 모드)
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return null as any
+  }
+
   const cookieStore = cookies()
 
   return createServerClient<Database>(
@@ -33,6 +38,11 @@ export async function createClient() {
 }
 
 export async function createServiceRoleClient() {
+  // 환경변수가 없으면 null 반환 (데모 모드)
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return null as any
+  }
+
   const cookieStore = cookies()
 
   return createServerClient<Database>(
