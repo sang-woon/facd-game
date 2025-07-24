@@ -49,7 +49,7 @@ export default function ComplaintForm({ userId, departments }: ComplaintFormProp
       
       // Auto-fill department if suggested
       if (analysis.suggestedDepartment) {
-        setFormData(prev => ({ ...prev, department: analysis.suggestedDepartment }))
+        setFormData(prev => ({ ...prev, department: analysis.suggestedDepartment || '' }))
       }
     } catch (error) {
       console.error('AI 분석 실패:', error)

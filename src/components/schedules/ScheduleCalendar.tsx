@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 
@@ -17,6 +18,7 @@ export default function ScheduleCalendar({ userId }: ScheduleCalendarProps) {
   const [schedules, setSchedules] = useState<any[]>([])
   const [selectedDateSchedules, setSelectedDateSchedules] = useState<any[]>([])
   const supabase = createClient()
+  const router = useRouter()
 
   useEffect(() => {
     if (userId) {
@@ -123,7 +125,11 @@ export default function ScheduleCalendar({ userId }: ScheduleCalendarProps) {
           ) : (
             <ul className="space-y-3">
               {selectedDateSchedules.map((schedule) => (
-                <li key={schedule.id} className="border-l-4 border-gyeonggi-blue pl-3">
+                <li 
+                  key={schedule.id} 
+                  className="border-l-4 border-gyeonggi-blue pl-3 cursor-pointer hover:bg-gray-50 py-2 -my-2 rounded"
+                  onClick={() => router.push(`/schedules/${schedule.id}/edit`)}
+                >
                   <div className="text-sm font-medium text-gray-900">
                     {new Date(schedule.scheduledAt).toLocaleTimeString('ko-KR', { 
                       hour: '2-digit', 
@@ -141,6 +147,7 @@ export default function ScheduleCalendar({ userId }: ScheduleCalendarProps) {
                   {schedule.description && (
                     <div className="text-sm text-gray-600 mt-1">{schedule.description}</div>
                   )}
+                  <div className="text-xs text-gray-400 mt-1">클릭하여 수정</div>
                 </li>
               ))}
             </ul>

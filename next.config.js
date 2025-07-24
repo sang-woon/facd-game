@@ -2,11 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'export',
-  
-  // GitHub Pages 배포를 위한 설정
-  basePath: process.env.NODE_ENV === 'production' ? '/facd-game' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/facd-game' : '',
   
   // 프로덕션 빌드 최적화
   compiler: {

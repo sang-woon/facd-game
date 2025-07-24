@@ -4,24 +4,30 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-interface ScheduleFormProps {
-  userId: string
+interface ScheduleEditFormProps {
+  schedule: any
   complaints: any[]
-  defaultComplaintId?: string
 }
 
-export default function ScheduleForm({ userId, complaints, defaultComplaintId }: ScheduleFormProps) {
+export default function ScheduleEditForm({ schedule, complaints }: ScheduleEditFormProps) {
   const router = useRouter()
   const supabase = createClient()
   const [loading, setLoading] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  
+  // Parse existing schedule date and time
+  const scheduledDate = new Date(schedule.scheduledAt)
+  const dateStr = scheduledDate.toISOString().split('T')[0]
+  const timeStr = scheduledDate.toTimeString().slice(0, 5)
+  
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    scheduledAt: '',
-    scheduledTime: '',
-    location: '',
-    complaintId: defaultComplaintId || '',
-    reminder: true,
+    title: schedule.title,
+    description: schedule.description || '',
+    scheduledAt: dateStr,
+    scheduledTime: timeStr,
+    location: schedule.location || '',
+    complaintId: schedule.complaintId || '',
+    reminder: schedule.reminder,
   })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -43,25 +49,50 @@ export default function ScheduleForm({ userId, complaints, defaultComplaintId }:
       
       const { error } = await supabase
         .from('Schedule')
-        .insert({
-          userId,
+        .update({
           title: formData.title,
           description: formData.description || null,
           scheduledAt: scheduledDateTime.toISOString(),
           location: formData.location || null,
           complaintId: formData.complaintId || null,
           reminder: formData.reminder,
+          updatedAt: new Date().toISOString(),
         })
+        .eq('id', schedule.id)
 
       if (error) throw error
 
       router.push('/schedules')
       router.refresh()
     } catch (error) {
-      console.error('일정 등록 실패:', error)
-      alert('일정 등록에 실패했습니다.')
+      console.error('일정 수정 실패:', error)
+      alert('일정 수정에 실패했습니다.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    if (!confirm('정말로 이 일정을 삭제하시겠습니까?')) {
+      return
+    }
+
+    setDeleting(true)
+    try {
+      const { error } = await supabase
+        .from('Schedule')
+        .delete()
+        .eq('id', schedule.id)
+
+      if (error) throw error
+
+      router.push('/schedules')
+      router.refresh()
+    } catch (error) {
+      console.error('일정 삭제 실패:', error)
+      alert('일정 삭제에 실패했습니다.')
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -95,7 +126,6 @@ export default function ScheduleForm({ userId, complaints, defaultComplaintId }:
             required
             value={formData.scheduledAt}
             onChange={handleInputChange}
-            min={new Date().toISOString().split('T')[0]}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gyeonggi-blue focus:ring-gyeonggi-blue sm:text-sm"
           />
         </div>
@@ -180,21 +210,32 @@ export default function ScheduleForm({ userId, complaints, defaultComplaintId }:
         </label>
       </div>
 
-      <div className="flex justify-end space-x-3">
+      <div className="flex justify-between">
         <button
           type="button"
-          onClick={() => router.back()}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+          onClick={handleDelete}
+          disabled={deleting}
+          className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-300 rounded-md hover:bg-red-50 disabled:opacity-50"
         >
-          취소
+          {deleting ? '삭제중...' : '일정 삭제'}
         </button>
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-4 py-2 text-sm font-medium text-white bg-gyeonggi-blue border border-transparent rounded-md hover:bg-gyeonggi-lightblue disabled:opacity-50"
-        >
-          {loading ? '등록중...' : '일정 등록'}
-        </button>
+        
+        <div className="flex space-x-3">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+          >
+            취소
+          </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="px-4 py-2 text-sm font-medium text-white bg-gyeonggi-blue border border-transparent rounded-md hover:bg-gyeonggi-lightblue disabled:opacity-50"
+          >
+            {loading ? '수정중...' : '일정 수정'}
+          </button>
+        </div>
       </div>
     </form>
   )

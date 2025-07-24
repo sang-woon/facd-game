@@ -40,7 +40,7 @@ export default async function ComplaintList({ userId, status, search }: Complain
     )
   }
 
-  const statusColors = {
+  const statusColors: Record<string, string> = {
     RECEIVED: 'bg-yellow-100 text-yellow-800',
     IN_PROGRESS: 'bg-blue-100 text-blue-800',
     PENDING: 'bg-gray-100 text-gray-800',
@@ -48,7 +48,7 @@ export default async function ComplaintList({ userId, status, search }: Complain
     REJECTED: 'bg-red-100 text-red-800',
   }
 
-  const statusLabels = {
+  const statusLabels: Record<string, string> = {
     RECEIVED: '접수',
     IN_PROGRESS: '진행중',
     PENDING: '보류',
@@ -56,7 +56,7 @@ export default async function ComplaintList({ userId, status, search }: Complain
     REJECTED: '반려',
   }
 
-  const priorityColors = {
+  const priorityColors: Record<string, string> = {
     LOW: 'text-gray-600',
     MEDIUM: 'text-yellow-600',
     HIGH: 'text-orange-600',

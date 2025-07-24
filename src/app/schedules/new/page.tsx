@@ -3,7 +3,11 @@ import { createClient } from '@/lib/supabase/server'
 import ScheduleForm from '@/components/schedules/ScheduleForm'
 import Link from 'next/link'
 
-export default async function NewSchedulePage() {
+export default async function NewSchedulePage({
+  searchParams
+}: {
+  searchParams: { complaintId?: string }
+}) {
   const user = await requireAuth()
   const supabase = await createClient()
 
@@ -46,6 +50,7 @@ export default async function NewSchedulePage() {
             <ScheduleForm 
               userId={userData?.id!} 
               complaints={complaints || []}
+              defaultComplaintId={searchParams.complaintId}
             />
           </div>
         </div>
