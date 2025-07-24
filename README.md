@@ -103,7 +103,8 @@ OPENAI_API_KEY (선택사항)
 ```
 
 #### 배포 URL
-`https://facd-game.vercel.app` (또는 자동 생성된 URL)
+- **GitHub 저장소**: https://github.com/sang-woon/facd-game
+- **라이브 데모**: Vercel 대시보드에서 확인 가능 (환경변수 설정 필요)
 
 ## 프로젝트 구조
 
