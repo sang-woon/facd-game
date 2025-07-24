@@ -1,0 +1,32 @@
+# Vercel 환경 변수 설정 가이드
+
+아래 환경 변수들을 Vercel 대시보드에서 추가하세요:
+
+## 필수 환경 변수
+
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Database
+DATABASE_URL=your_database_url
+DIRECT_URL=your_direct_url
+
+# NextAuth (Vercel URL로 설정)
+NEXTAUTH_URL=https://your-app-name.vercel.app
+NEXTAUTH_SECRET=your_nextauth_secret
+
+# JWT
+JWT_SECRET=your_jwt_secret
+
+# OpenAI (선택사항)
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_ORG_ID=your_openai_org_id
+
+# 기타 (선택사항)
+REDIS_URL=your_redis_url
+SENTRY_DSN=your_sentry_dsn
+KAKAO_REST_API_KEY=your_kakao_key
+NAVER_CLIENT_ID=your_naver_id
+NAVER_CLIENT_SECRET=your_naver_secret

@@ -77,41 +77,33 @@ npm run build:prod
 npm start
 ```
 
-## GitHub Pages 배포
+## 배포
 
-이 프로젝트는 GitHub Pages에 자동으로 배포되도록 설정되어 있습니다.
+### Vercel 배포 (권장)
 
-### 자동 배포 (GitHub Actions)
+이 프로젝트는 Vercel에 배포하도록 최적화되어 있습니다.
 
-1. 코드를 `main` 브랜치에 푸시하면 자동으로 빌드 및 배포됩니다.
-2. GitHub 저장소 설정에서 Pages를 활성화해야 합니다:
-   - Settings → Pages → Source: "GitHub Actions" 선택
+#### 배포 방법
+1. [Vercel](https://vercel.com)에 GitHub 계정으로 로그인
+2. "Import Project" → GitHub 저장소 선택
+3. 환경 변수 설정 (아래 참조)
+4. Deploy 클릭
 
-### 수동 배포
-
-```bash
-# 빌드 및 배포
-npm run deploy
+#### 필수 환경 변수
+```
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+DATABASE_URL
+DIRECT_URL
+NEXTAUTH_URL
+NEXTAUTH_SECRET
+JWT_SECRET
+OPENAI_API_KEY (선택사항)
 ```
 
-### 배포 전 준비사항
-
-1. **환경 변수 설정**
-   - GitHub 저장소의 Settings → Secrets and variables → Actions에서 필요한 환경 변수를 설정하세요.
-   - 주요 환경 변수는 `.env.example` 파일을 참고하세요.
-
-2. **저장소 이름 확인**
-   - `next.config.js`의 `basePath`와 `assetPrefix`가 저장소 이름과 일치하는지 확인하세요.
-   - 현재 설정: `/facd-game`
-
-3. **API 제한사항**
-   - GitHub Pages는 정적 사이트 호스팅만 지원합니다.
-   - 서버 사이드 기능(API Routes, 동적 라우팅 등)은 작동하지 않습니다.
-   - Supabase 등 외부 API를 사용하여 백엔드 기능을 구현하세요.
-
-### 배포 URL
-배포가 완료되면 다음 URL에서 확인할 수 있습니다:
-`https://[your-github-username].github.io/facd-game/`
+#### 배포 URL
+`https://facd-game.vercel.app` (또는 자동 생성된 URL)
 
 ## 프로젝트 구조
 
